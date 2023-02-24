@@ -1,13 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Restaurant } from '../models';
+import { RestaurantService } from '../restaurant-service';
 
 @Component({
   selector: 'app-restaurant-cuisine',
   templateUrl: './restaurant-cuisine.component.html',
   styleUrls: ['./restaurant-cuisine.component.css']
 })
-export class RestaurantCuisineComponent {
-	
-	// TODO Task 3
-	// For View 2
+export class RestaurantCuisineComponent implements OnInit, OnDestroy{
 
+  cuisineName!: string;
+  routeSub$!: Subscription;
+  restaurant!: Restaurant;
+  
+  constructor(
+    private restaurantService: RestaurantService,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    // get character id from current route
+    this.routeSub$ = this.activatedRoute.params.subscribe((params) => {
+      this.cuisineName = params['cuisine'];
+    });
+
+    // retrieve character details from server
+    this.restaurantService
+      .getRestaurantsByCuisine(this.cuisineName)
+      .then((res) => {
+        this.restaurant = res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub$.unsubscribe();
+  }
 }
+
+
+
+
