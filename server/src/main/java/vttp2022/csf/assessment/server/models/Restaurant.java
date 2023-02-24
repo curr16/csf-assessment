@@ -1,5 +1,10 @@
 package vttp2022.csf.assessment.server.models;
 
+import org.bson.Document;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 // Do not modify this class
 public class Restaurant {
 	
@@ -51,4 +56,29 @@ public class Restaurant {
 	public String getMapURL() {
 		return this.mapUrl;
 	}
+
+	public static Restaurant create(Document d) {
+		Restaurant r = new Restaurant();
+		r.setRestaurantId(d.getString("restaurant_id"));
+		r.setName(d.getString("name"));
+		r.setCuisine(d.getString("cuisine"));
+		r.setAddress(d.getString("address"));
+		return r;
+	}
+
+	public JsonObject toJSON() {
+		return Json.createObjectBuilder()
+				.add("cuisine", getCuisine())
+				.build();
+	}
+
+
+	public JsonObject toJSONName() {
+		return Json.createObjectBuilder()
+				.add("cuisine", getCuisine())
+				.add("name", getName())
+				.build();
+	}
+
 }
+	
