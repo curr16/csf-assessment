@@ -23,7 +23,7 @@ export class RestaurantService {
 	// Use the following method to get a list of restaurants by cuisine
 	// You can add any parameters (if any) and the return type 
 	// DO NOT CHNAGE THE METHOD'S NAME
-	public getRestaurantsByCuisine(cuisineName: String) {
+	public getRestaurantsByCuisine(cuisineName: string) {
 	
 			return lastValueFrom(
 			  this.httpclient.get<Restaurant>('https://itchy-doctor-production.up.railway.app/api/${cuisines}/restaurants',

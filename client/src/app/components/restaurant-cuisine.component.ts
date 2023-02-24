@@ -21,12 +21,10 @@ export class RestaurantCuisineComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit(): void {
-    // get character id from current route
     this.routeSub$ = this.activatedRoute.params.subscribe((params) => {
       this.cuisineName = params['cuisine'];
     });
 
-    // retrieve character details from server
     this.restaurantService
       .getRestaurantsByCuisine(this.cuisineName)
       .then((res) => {
